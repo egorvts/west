@@ -234,11 +234,16 @@ class Brewer extends Duck {
 
 Object.defineProperty(Creature.prototype, 'currentPower', {
     get() {
+        if (this._currentPower === undefined) {
+            return this.maxPower;
+        }
         return this._currentPower;
     },
     set(value) {
-        this._currentPower = Math.min(value, this.maxPower);
-    }
+        this._currentPower = Math.min(Math.max(value, 0), this.maxPower);
+    },
+    configurable: true,
+    enumerable: true
 });
 
 class PseudoDuck extends Dog {
