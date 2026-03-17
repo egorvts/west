@@ -1,3 +1,4 @@
+
 import Card from "./Card.js";
 import Game from "./Game.js";
 import TaskQueue from "./TaskQueue.js";
@@ -55,9 +56,32 @@ class Dog extends Creature {
     }
 }
 
-const seriffStartDeck = [new Duck(), new Duck(), new Duck()];
+class Trasher extends Dog {
+    constructor(name = 'Громила', power = 5) {
+        super(name, power);
+    }
 
-const banditStartDeck = [new Dog(), new Dog(), new Dog()];
+    modifyTakenDamage(value, fromCard, gameContext, continuation) {
+        continuation(Math.min(0, value - 1));
+    }
+
+    getDescriptions() {
+        return [
+            'сигма получает на 1 урон меньше',
+            ...super.getDescriptions()
+        ];
+    }
+}
+
+const seriffStartDeck = [
+    new Duck(),
+    new Duck(),
+    new Duck(),
+    new Duck(),
+];
+const banditStartDeck = [
+    new Trasher(),
+];
 
 // Создание игры.
 const game = new Game(seriffStartDeck, banditStartDeck);
